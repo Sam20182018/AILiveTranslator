@@ -30,9 +30,11 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Build APK
-        working-directory: project
+            - name: Build APK
         run: |
+          PROJECT_DIR=$(dirname "$(find project -name gradlew -type f -print -quit)")
+          echo "Project directory: $PROJECT_DIR"
+          cd "$PROJECT_DIR"
           chmod +x gradlew
           ./gradlew assembleDebug --no-daemon
 
