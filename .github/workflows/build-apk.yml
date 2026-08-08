@@ -1,45 +1,5 @@
-name: Build Android APK
-
-on:
-  workflow_dispatch:
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Extract project
-        run: |
-          unzip -q AILiveTranslator.zip -d project
-          echo "Extracted files:"
-          find project -maxdepth 2 -type f | head -50
-
-      - name: Find Gradle project
-        run: |
-          find project -name gradlew -type f
-
-      - name: Setup JDK
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: '17'
-
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-
-            - name: Build APK
-        run: |
-          PROJECT_DIR=$(dirname "$(find project -name gradlew -type f -print -quit)")
-          echo "Project directory: $PROJECT_DIR"
-          cd "$PROJECT_DIR"
-          chmod +x gradlew
-          ./gradlew assembleDebug --no-daemon
-
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: AILiveTranslator-APK
-          path: project/**/build/outputs/apk/debug/*.apk
+cd AILiveTranslator
+git init && git add . && git commit -m "AI Live Translator"
+git branch -M main
+git remote add origin https://github.com/<username>/<repo>.git
+git push -u origin main
